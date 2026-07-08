@@ -1,0 +1,139 @@
+{
+  "installCommand": "",
+  "buildCommand": "",
+  "framework": null,
+  "redirects": [
+    {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "sovereignid.smartecm.io"
+        }
+      ],
+      "destination": "https://luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "voce.smartecm.io"
+        }
+      ],
+      "destination": "https://voce.luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "efolha.sp.smartecm.io"
+        }
+      ],
+      "destination": "https://efolha.luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "gestao.sp.smartecm.io"
+        }
+      ],
+      "destination": "https://gestao.luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "wallet.smartecm.io"
+        }
+      ],
+      "destination": "https://wallet.luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "licencas.sp.smartecm.io"
+        }
+      ],
+      "destination": "https://licencas.luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "conselhos.sp.smartecm.io"
+        }
+      ],
+      "destination": "https://conselhos.luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "licitacoes.sp.smartecm.io"
+        }
+      ],
+      "destination": "https://licitacoes.luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "cidadao.sp.smartecm.io"
+        }
+      ],
+      "destination": "https://cidadao.luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "cras.sp.smartecm.io"
+        }
+      ],
+      "destination": "https://cras.luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "esocial.sp.smartecm.io"
+        }
+      ],
+      "destination": "https://esocial.luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "rh.sp.smartecm.io"
+        }
+      ],
+      "destination": "https://rh.luure.com.br/:path",
+      "permanent": true
+    }
+  ]
+}
