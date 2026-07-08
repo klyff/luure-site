@@ -1,0 +1,9 @@
+.git
+.vercel
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+node_modules
+*.mhtml

@@ -1,0 +1,12 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/:path(.*)",
+      "has": [{ "type": "host", "value": "sovereignid.smartecm.io" }],
+      "destination": "https://luure.com.br/:path",
+      "permanent": true
+    }
+  ]
+}

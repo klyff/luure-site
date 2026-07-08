@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 232 40" role="img" aria-label="SovereignID.io">
+  <!-- Mark: sovereign shield + identity node -->
+  <g>
+    <path d="M18 2 L33 8 V19 C33 28.5 26.5 34.5 18 38 C9.5 34.5 3 28.5 3 19 V8 Z" fill="#0033A0"/>
+    <path d="M18 2 L33 8 V19 C33 28.5 26.5 34.5 18 38 C9.5 34.5 3 28.5 3 19 V8 Z" fill="none" stroke="#6D28D9" stroke-width="0" />
+    <circle cx="18" cy="16.5" r="4.2" fill="none" stroke="#FFFFFF" stroke-width="2.2"/>
+    <path d="M11.5 29.5 C12.2 24.2 15 21.5 18 21.5 C21 21.5 23.8 24.2 24.5 29.5" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="44" y="27" font-family="Inter, Segoe UI, Roboto, sans-serif" font-size="21" font-weight="800" letter-spacing="-0.3">
+    <tspan fill="#14182B">Sovereign</tspan><tspan fill="#0033A0">ID</tspan><tspan fill="#777777" font-weight="600">.io</tspan>
+  </text>
+</svg>

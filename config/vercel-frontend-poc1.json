@@ -1,0 +1,15 @@
+{
+  "installCommand": "",
+  "buildCommand": "",
+  "framework": null,
+  "rewrites": [
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "efolha.luure.com.br" }], "destination": "/efolha/$1" },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "gestao.luure.com.br" }], "destination": "/gestao/$1" },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "wallet.luure.com.br" }], "destination": "/wallet/$1" }
+  ],
+  "redirects": [
+    { "source": "/:path(.*)", "has": [{ "type": "host", "value": "efolha.sovereignid.cloud" }], "destination": "https://efolha.luure.com.br/:path", "permanent": true },
+    { "source": "/:path(.*)", "has": [{ "type": "host", "value": "gestao.sovereignid.cloud" }], "destination": "https://gestao.luure.com.br/:path", "permanent": true },
+    { "source": "/:path(.*)", "has": [{ "type": "host", "value": "wallet.sovereignid.cloud" }], "destination": "https://wallet.luure.com.br/:path", "permanent": true }
+  ]
+}

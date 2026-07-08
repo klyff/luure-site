@@ -1,0 +1,48 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/:path(.*)",
+      "has": [{ "type": "host", "value": "www.luure.com.br" }],
+      "destination": "https://luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [{ "type": "host", "value": "sovereignid.cloud" }],
+      "destination": "https://luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [{ "type": "host", "value": "www.sovereignid.cloud" }],
+      "destination": "https://luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [{ "type": "host", "value": "idsoberano.com" }],
+      "destination": "https://luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [{ "type": "host", "value": "sovereignid.tech" }],
+      "destination": "https://luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [{ "type": "host", "value": "sovereignid.global" }],
+      "destination": "https://luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [{ "type": "host", "value": "sovereignid.smartecm.io" }],
+      "destination": "https://luure.com.br/:path",
+      "permanent": true
+    }
+  ]
+}
