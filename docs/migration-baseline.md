@@ -56,3 +56,24 @@
 ## Destino (luure-*)
 
 - `luure-site`, `luure-frontends`, `luure-agent`, `luure-wallet`, `luure-ledger`, `luure-infra`
+
+## Repositórios criados (2026-07-08)
+
+| Repo | Commit | URL |
+|------|--------|-----|
+| luure-site | `0d9804c` | https://github.com/klyff/luure-site |
+| luure-frontends | `ebf88af` | https://github.com/klyff/luure-frontends |
+| luure-agent | `16ab3f7` | https://github.com/klyff/luure-agent |
+| luure-wallet | `7e74175` | https://github.com/klyff/luure-wallet |
+| luure-ledger | `d7bbc1d` | https://github.com/klyff/luure-ledger |
+| luure-infra | `3cb9b6d` | https://github.com/klyff/luure-infra |
+
+## Validação (última execução)
+
+- **14 ok, 1 falha, 17 skip**
+- Falha restante: `agent.luure.com.br` (DNS CNAME pendente no Registro.br)
+- Loop de validação: `scripts/loop-validate-luure.sh` (15 min)
+
+## GCP — bloqueio
+
+VM `voce-br-vm` acessível via HTTP (34.39.174.212) mas SSH/gcloud requer reauth em `klyff@predix.global` ou IAM em `sp-identity-trust`. Scripts prontos em `luure-infra/scripts/dehydrate-vm.sh` e `resize-vm.sh`.
