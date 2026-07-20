@@ -17,9 +17,11 @@
 | Projeto | URL produção | Domínio alvo |
 |---------|--------------|--------------|
 | sovereignid-home | luure.com.br | luure.com.br |
-| sovereignid-io | sovereignid.smartecm.io | redirect |
+| sovereignid-io | *.smartecm.io | redirect legado → luure |
+| luure-ledger (VM) | ledger.luure.com.br | ledger |
+| luure-api (VM) | api.luure.com.br | api |
 | frontend | efolha.luure.com.br | efolha/gestao/wallet |
-| sovereignid-voce | voce.luure.com.br | voce |
+| sovereignid-sou | sou.luure.com.br | sou |
 | sovereignid-licencas | licencas.luure.com.br | licencas |
 | sovereignid-conselhos | conselhos.luure.com.br | conselhos |
 | sovereignid-licitacoes | licitacoes.luure.com.br | licitacoes |
@@ -38,7 +40,9 @@
 - `*.luure.com.br` — sem resposta
 - `sovereignid.cloud` → Vercel (64.29.17.x)
 - `agent.sovereignid.cloud` → Vercel (216.198.79.x)
-- `ledger.smartecm.io` — sem resposta local
+- `ledger.luure.com.br` — A → VM (34.39.174.212) quando DNS propagar
+- `api.luure.com.br` — A → VM (34.39.174.212) quando DNS propagar
+- `ledger.smartecm.io` — legado (redirect ou manter até descomissionar)
 
 ## Smoke test (2026-07-08)
 

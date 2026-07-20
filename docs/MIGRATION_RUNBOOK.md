@@ -10,7 +10,7 @@ Orquestração da migração sovereignID → luure-* (Vercel + GitHub).
 | [luure-frontends](https://github.com/klyff/luure-frontends) | Vercel `frontend` + `sovereignid-*` | `*.luure.com.br` |
 | [luure-agent](https://github.com/klyff/luure-agent) | Vercel `sovereignid-agent` | `agent.luure.com.br` |
 | [luure-wallet](https://github.com/klyff/luure-wallet) | Expo | app stores |
-| [luure-ledger](https://github.com/klyff/luure-ledger) | VM GCP | `ledger.smartecm.io` |
+| [luure-ledger](https://github.com/klyff/luure-ledger) | VM GCP | `ledger.luure.com.br` |
 | [luure-infra](https://github.com/klyff/luure-infra) | Terraform/scripts | ops |
 
 ## Scripts
@@ -20,7 +20,9 @@ Orquestração da migração sovereignID → luure-* (Vercel + GitHub).
 | `scripts/deploy-luure-all.sh` | Build + deploy site, agent, todas as PoCs |
 | `scripts/add-luure-poc-domains.sh` | Anexa `*.luure.com.br` aos projetos Vercel |
 | `scripts/validate-luure-migration.sh` | Health check completo |
+| `scripts/validate-poc-navigation.sh` | Validação de rotas internas das PoCs (canônico + vercel.app) |
 | `scripts/loop-validate-luure.sh` | Loop 15 min (validação contínua) |
+| `scripts/deploy-smartecm-legacy-redirects.sh` | Redirects `*.smartecm.io` → `*.luure.com.br` (sovereignid-io) |
 | `scripts/smoke-test-luure.sh` | Smoke test rápido |
 
 ## DNS (Registro.br)
@@ -41,8 +43,8 @@ GCP_PROJECT_ID=sp-identity-trust ZONE=southamerica-east1-b \
 # 2. Redimensionar para e2-small
 bash luure-infra/scripts/resize-vm.sh
 
-# 3. Atualizar DNS smartecm.io portais: A 34.39.174.212 → 76.76.21.21 (Vercel)
-#    Manter ledger.smartecm.io e api.smartecm.io no IP da VM
+# 3. DNS luure.com.br: ledger + api → A 34.39.174.212 (VM); portais → Vercel (CNAME)
+#    Manter redirects *.smartecm.io via projeto sovereignid-io até descomissionar
 ```
 
 ## Validação

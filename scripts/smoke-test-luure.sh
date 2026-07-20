@@ -33,10 +33,19 @@ check "www → apex" "https://www.luure.com.br/" "3xx"
 
 echo ""
 echo "=== PoCs luure.com.br ==="
-for sub in voce efolha gestao wallet licencas conselhos licitacoes cidadao cras esocial rh; do
+for sub in sou efolha gestao wallet licencas conselhos licitacoes cidadao cras esocial rh; do
   check "$sub.luure.com.br" "https://${sub}.luure.com.br/" "200"
 done
 check "rh/rendimentos" "https://rh.luure.com.br/rendimentos" "200"
+
+echo ""
+echo "=== Portal Sou — redirects legados ==="
+check "voce.luure.com.br → sou" "https://voce.luure.com.br/" "3xx"
+
+echo ""
+echo "=== Agent server (OID4VC) ==="
+check "agent.luure.com.br/health" "https://agent.luure.com.br/health" "200"
+check "agent.sovereignid.cloud/health" "https://agent.sovereignid.cloud/health" "200"
 
 echo ""
 echo "=== Links no site (deployment sovereignid-home) ==="
@@ -49,6 +58,10 @@ else
   echo "✗ apenas $count links luure.com.br (esperado ≥12)"
   FAIL=$((FAIL + 1))
 fi
+
+echo ""
+echo "=== Hub Vercel ==="
+check "sovereignid-sou.vercel.app (hub)" "https://sovereignid-sou.vercel.app/" "200"
 
 echo ""
 echo "=== URLs legadas (redirect 308→luure) ==="

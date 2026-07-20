@@ -22,7 +22,7 @@
           "value": "voce.smartecm.io"
         }
       ],
-      "destination": "https://voce.luure.com.br/:path",
+      "destination": "https://sou.luure.com.br/:path",
       "permanent": true
     },
     {
@@ -133,6 +133,18 @@
         }
       ],
       "destination": "https://rh.luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [{ "type": "host", "value": "ledger.smartecm.io" }],
+      "destination": "https://ledger.luure.com.br/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [{ "type": "host", "value": "api.smartecm.io" }],
+      "destination": "https://api.luure.com.br/:path",
       "permanent": true
     }
   ]

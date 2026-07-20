@@ -5,25 +5,33 @@ set -eo pipefail
 
 FRONTEND="${FRONTEND:-/Users/klyff/git/luure-migration-work/luure-frontends-fresh}"
 AGENT="${AGENT:-/Users/klyff/git/luure-migration-work/luure-agent}"
-SITE="${SITE:-/Users/klyff/git/luure-migration-work/luure-site}"
+SITE="${SITE:-/Users/klyff/git/sovereignID.io}"
 
-make_redirect_json() {
-  local old_host="$1" new_url="$2"
-  cat <<EOF
+make_spa_vercel_json() {
+  local old_host="$1"
+  local new_host="$2"
+  if [[ -x "${FRONTEND}/scripts/make-vercel-spa.sh" ]]; then
+    "${FRONTEND}/scripts/make-vercel-spa.sh" "$old_host" "$new_host"
+  else
+    cat <<EOF
 {
   "installCommand": "",
   "buildCommand": "",
   "framework": null,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
   "redirects": [
     {
-      "source": "/:path(.*)",
+      "source": "/:path*",
       "has": [{ "type": "host", "value": "${old_host}" }],
-      "destination": "https://${new_url}/:path",
+      "destination": "https://${new_host}/:path*",
       "permanent": true
     }
   ]
 }
 EOF
+  fi
 }
 
 deploy_static() {
@@ -36,7 +44,9 @@ deploy_static() {
     npm run "$build_script"
     cp -R "dist/${out_subdir}/"* "${workdir}/"
     if [[ -n "$old_host" ]]; then
-      make_redirect_json "$old_host" "$new_host" > "${workdir}/vercel.json"
+      make_spa_vercel_json "$old_host" "$new_host" > "${workdir}/vercel.json"
+    else
+      cp "${FRONTEND}/config/vercel-spa.json" "${workdir}/vercel.json"
     fi
     cd "${workdir}"
     vercel link --project "$project" --yes >/dev/null 2>&1
@@ -45,9 +55,29 @@ deploy_static() {
   rm -rf "$workdir"
 }
 
-deploy_poc1() {
-  local workdir
+deploy_sou() {
+  local workdir vercel_json
   workdir=$(mktemp -d)
+  vercel_json="${FRONTEND}/config/vercel-sou.json"
+  [[ -f "$vercel_json" ]] || vercel_json="${SITE}/config/vercel-sou-redirects.json"
+  echo "=== Deploy sovereignid-sou (Portal Sou) ==="
+  (
+    cd "${FRONTEND}"
+    npm run build:sou
+    cp -R "dist/sou/"* "${workdir}/"
+    cp "$vercel_json" "${workdir}/vercel.json"
+    cd "${workdir}"
+    vercel link --project sovereignid-sou --yes >/dev/null 2>&1
+    vercel --prod --yes
+  )
+  rm -rf "$workdir"
+}
+
+deploy_poc1() {
+  local workdir vercel_json
+  workdir=$(mktemp -d)
+  vercel_json="${FRONTEND}/config/vercel-poc1.json"
+  [[ -f "$vercel_json" ]] || vercel_json="${SITE}/config/vercel-frontend-poc1.json"
   echo "=== Deploy luure-poc1 (efolha, gestao, wallet) ==="
   (
     cd "${FRONTEND}"
@@ -55,25 +85,7 @@ deploy_poc1() {
     npm run build:gestao
     npm run build:wallet
     cp -R dist/efolha dist/gestao dist/wallet "${workdir}/"
-    cp "${SITE}/../config/vercel-frontend-poc1.json" "${workdir}/vercel.json" 2>/dev/null \
-      || cp "${FRONTEND}/vercel.json" "${workdir}/vercel.json" 2>/dev/null \
-      || cat > "${workdir}/vercel.json" <<'VJ'
-{
-  "installCommand": "",
-  "buildCommand": "",
-  "framework": null,
-  "rewrites": [
-    { "source": "/(.*)", "has": [{ "type": "host", "value": "efolha.luure.com.br" }], "destination": "/efolha/$1" },
-    { "source": "/(.*)", "has": [{ "type": "host", "value": "gestao.luure.com.br" }], "destination": "/gestao/$1" },
-    { "source": "/(.*)", "has": [{ "type": "host", "value": "wallet.luure.com.br" }], "destination": "/wallet/$1" }
-  ],
-  "redirects": [
-    { "source": "/:path(.*)", "has": [{ "type": "host", "value": "efolha.sovereignid.cloud" }], "destination": "https://efolha.luure.com.br/:path", "permanent": true },
-    { "source": "/:path(.*)", "has": [{ "type": "host", "value": "gestao.sovereignid.cloud" }], "destination": "https://gestao.luure.com.br/:path", "permanent": true },
-    { "source": "/:path(.*)", "has": [{ "type": "host", "value": "wallet.sovereignid.cloud" }], "destination": "https://wallet.luure.com.br/:path", "permanent": true }
-  ]
-}
-VJ
+    cp "$vercel_json" "${workdir}/vercel.json"
     cd "${workdir}"
     vercel link --project frontend --yes >/dev/null 2>&1
     vercel --prod --yes
@@ -106,7 +118,7 @@ npm ci
 deploy_site
 deploy_agent
 deploy_poc1
-deploy_static sovereignid-voce build:voce voce sovereignid-voce.vercel.app voce.luure.com.br
+deploy_sou
 deploy_static sovereignid-licencas build:licencas licencas sovereignid-licencas.vercel.app licencas.luure.com.br
 deploy_static sovereignid-conselhos build:conselhos conselhos sovereignid-conselhos.vercel.app conselhos.luure.com.br
 deploy_static sovereignid-licitacoes build:licitacoes licitacoes sovereignid-licitacoes.vercel.app licitacoes.luure.com.br

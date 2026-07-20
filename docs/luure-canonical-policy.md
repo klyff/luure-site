@@ -18,6 +18,16 @@
 | `sovereignid.tech` | `luure.com.br` |
 | `sovereignid.global` | `luure.com.br` |
 | `sovereignid.smartecm.io` | `luure.com.br` |
+| `*.smartecm.io` (portais) | `*.luure.com.br` equivalente |
+| `ledger.smartecm.io` | `ledger.luure.com.br` |
+| `api.smartecm.io` | `api.luure.com.br` |
+
+### Infra técnica (VM GCP)
+
+| Origem | Destino |
+|--------|---------|
+| `ledger.luure.com.br` | VM `34.39.174.212` — genesis/status Indy |
+| `api.luure.com.br` | VM `34.39.174.212` — FastAPI / Swagger |
 | `www.luure.com.br` | `luure.com.br` |
 
 ### PoC 1 (efolha, gestao, wallet) → projeto `frontend`
@@ -32,7 +42,9 @@
 
 | Origem | Destino |
 |--------|---------|
-| `sovereignid-voce.vercel.app` | `voce.luure.com.br` |
+| `sovereignid-sou.vercel.app` | `sou.luure.com.br` |
+| `sovereignid-voce.vercel.app` | `sou.luure.com.br` (legado) |
+| `voce.luure.com.br` | `sou.luure.com.br` (legado) |
 | `sovereignid-licencas.vercel.app` | `licencas.luure.com.br` |
 | `sovereignid-conselhos.vercel.app` | `conselhos.luure.com.br` |
 | `sovereignid-licitacoes.vercel.app` | `licitacoes.luure.com.br` |

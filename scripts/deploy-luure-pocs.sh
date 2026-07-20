@@ -1,35 +1,44 @@
 #!/usr/bin/env bash
-# Build e deploy das PoCs do monorepo sovereignid para os projetos Vercel.
-# Requer: clone de github.com/klyff/sovereignid e vercel CLI autenticado.
+# Build e deploy das PoCs do monorepo luure-frontends para os projetos Vercel.
+# Requer: clone de github.com/klyff/luure-frontends e vercel CLI autenticado.
 set -eo pipefail
 
-REPO_ROOT="${REPO_ROOT:-/tmp/sovereignid-monorepo}"
-FRONTEND="${REPO_ROOT}/frontend"
+REPO_ROOT="${REPO_ROOT:-/Users/klyff/git/luure-migration-work/luure-frontends-fresh}"
+FRONTEND="${FRONTEND:-${REPO_ROOT}}"
+SITE="${SITE:-/Users/klyff/git/sovereignID.io}"
 
-deploy_package() {
-  local project="$1"
-  local pkg_dir="$2"
-  local build_cmd="$3"
-  local vercel_json="$4"
-  local workdir
-  workdir=$(mktemp -d)
-  echo "=== Deploy ${project} (${pkg_dir}) ==="
-  (
-    cd "${FRONTEND}"
-    eval "$build_cmd"
-    cp -R "${FRONTEND}/dist/${pkg_dir}/"* "${workdir}/" 2>/dev/null || cp -R "${FRONTEND}/dist/${pkg_dir}/." "${workdir}/"
-    cp "$vercel_json" "${workdir}/vercel.json"
-    cd "${workdir}"
-    vercel link --project "$project" --yes >/dev/null 2>&1
-    vercel --prod --yes
-  )
-  rm -rf "$workdir"
+make_spa_vercel_json() {
+  local old_host="$1"
+  local new_host="$2"
+  if [[ -x "${FRONTEND}/scripts/make-vercel-spa.sh" ]]; then
+    "${FRONTEND}/scripts/make-vercel-spa.sh" "$old_host" "$new_host"
+  else
+    cat <<EOF
+{
+  "installCommand": "",
+  "buildCommand": "",
+  "framework": null,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "${old_host}" }],
+      "destination": "https://${new_host}/:path*",
+      "permanent": true
+    }
+  ]
+}
+EOF
+  fi
 }
 
-# PoC 1 — projeto frontend (3 apps num deploy)
 deploy_frontend_poc1() {
-  local workdir
+  local workdir vercel_json
   workdir=$(mktemp -d)
+  vercel_json="${FRONTEND}/config/vercel-poc1.json"
+  [[ -f "$vercel_json" ]] || vercel_json="${SITE}/config/vercel-frontend-poc1.json"
   echo "=== Deploy frontend (efolha, gestao, wallet) ==="
   (
     cd "${FRONTEND}"
@@ -37,7 +46,7 @@ deploy_frontend_poc1() {
     npm run build:gestao
     npm run build:wallet
     cp -R dist/efolha dist/gestao dist/wallet "${workdir}/"
-    cp vercel.json "${workdir}/"
+    cp "$vercel_json" "${workdir}/vercel.json"
     cd "${workdir}"
     vercel link --project frontend --yes >/dev/null 2>&1
     vercel --prod --yes
@@ -45,49 +54,22 @@ deploy_frontend_poc1() {
   rm -rf "$workdir"
 }
 
-make_redirect_json() {
-  local old_host="$1"
-  local new_url="$2"
-  cat <<EOF
-{
-  "installCommand": "",
-  "buildCommand": "",
-  "framework": null,
-  "redirects": [
-    {
-      "source": "/:path(.*)",
-      "has": [{ "type": "host", "value": "${old_host}" }],
-      "destination": "https://${new_url}/:path",
-      "permanent": true
-    }
-  ]
-}
-EOF
-}
-
-make_dual_redirect_json() {
-  local old1="$1" old2="$2" new_url="$3"
-  cat <<EOF
-{
-  "installCommand": "",
-  "buildCommand": "",
-  "framework": null,
-  "redirects": [
-    {
-      "source": "/:path(.*)",
-      "has": [{ "type": "host", "value": "${old1}" }],
-      "destination": "https://${new_url}/:path",
-      "permanent": true
-    },
-    {
-      "source": "/:path(.*)",
-      "has": [{ "type": "host", "value": "${old2}" }],
-      "destination": "https://${new_url}/:path",
-      "permanent": true
-    }
-  ]
-}
-EOF
+deploy_sou() {
+  local workdir vercel_json
+  workdir=$(mktemp -d)
+  vercel_json="${FRONTEND}/config/vercel-sou.json"
+  [[ -f "$vercel_json" ]] || vercel_json="${SITE}/config/vercel-sou-redirects.json"
+  echo "=== Deploy sovereignid-sou (Portal Sou) ==="
+  (
+    cd "${FRONTEND}"
+    npm run build:sou
+    cp -R "dist/sou/"* "${workdir}/"
+    cp "$vercel_json" "${workdir}/vercel.json"
+    cd "${workdir}"
+    vercel link --project sovereignid-sou --yes >/dev/null 2>&1
+    vercel --prod --yes
+  )
+  rm -rf "$workdir"
 }
 
 deploy_single() {
@@ -104,7 +86,9 @@ deploy_single() {
     npm run "$build_script"
     cp -R "dist/${out_subdir}/"* "${workdir}/"
     if [[ -n "$old_vercel_host" ]]; then
-      make_redirect_json "$old_vercel_host" "$new_host" > "${workdir}/vercel.json"
+      make_spa_vercel_json "$old_vercel_host" "$new_host" > "${workdir}/vercel.json"
+    else
+      cp "${FRONTEND}/config/vercel-spa.json" "${workdir}/vercel.json"
     fi
     cd "${workdir}"
     vercel link --project "$project" --yes >/dev/null 2>&1
@@ -114,7 +98,7 @@ deploy_single() {
 }
 
 if [[ ! -d "$FRONTEND" ]]; then
-  echo "Clone o monorepo: gh repo clone klyff/sovereignid ${REPO_ROOT}"
+  echo "Clone o monorepo: gh repo clone klyff/luure-frontends ${REPO_ROOT}"
   exit 1
 fi
 
@@ -122,7 +106,7 @@ cd "$FRONTEND"
 npm ci
 
 deploy_frontend_poc1
-deploy_single sovereignid-voce build:voce voce sovereignid-voce.vercel.app voce.luure.com.br
+deploy_sou
 deploy_single sovereignid-licencas build:licencas licencas sovereignid-licencas.vercel.app licencas.luure.com.br
 deploy_single sovereignid-conselhos build:conselhos conselhos sovereignid-conselhos.vercel.app conselhos.luure.com.br
 deploy_single sovereignid-licitacoes build:licitacoes licitacoes sovereignid-licitacoes.vercel.app licitacoes.luure.com.br

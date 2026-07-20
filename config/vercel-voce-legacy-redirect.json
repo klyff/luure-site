@@ -1,0 +1,12 @@
+{
+  "installCommand": "",
+  "buildCommand": "",
+  "framework": null,
+  "redirects": [
+    {
+      "source": "/:path(.*)",
+      "destination": "https://sou.luure.com.br/:path",
+      "permanent": true
+    }
+  ]
+}

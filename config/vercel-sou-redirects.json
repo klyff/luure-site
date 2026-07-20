@@ -1,0 +1,22 @@
+{
+  "installCommand": "",
+  "buildCommand": "",
+  "framework": null,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "sovereignid-voce.vercel.app" }],
+      "destination": "https://sou.luure.com.br/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "voce.luure.com.br" }],
+      "destination": "https://sou.luure.com.br/:path*",
+      "permanent": true
+    }
+  ]
+}

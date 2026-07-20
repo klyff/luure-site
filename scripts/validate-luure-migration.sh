@@ -100,10 +100,15 @@ check "www → apex" "https://www.luure.com.br/" "3xx"
 
 echo ""
 echo "=== PoCs luure.com.br ==="
-for sub in voce efolha gestao wallet licencas conselhos licitacoes cidadao cras esocial rh; do
+for sub in sou efolha gestao wallet licencas conselhos licitacoes cidadao cras esocial rh; do
   check "${sub}.luure.com.br" "https://${sub}.luure.com.br/" "200"
 done
 check "rh/rendimentos" "https://rh.luure.com.br/rendimentos" "200"
+
+echo ""
+echo "=== Portal Sou — redirects legados ==="
+check_redirect_dest "voce.luure.com.br → sou" "https://voce.luure.com.br/" "sou.luure.com.br"
+check_redirect_dest "sovereignid-voce.vercel.app → sou" "https://sovereignid-voce.vercel.app/" "sou.luure.com.br"
 
 echo ""
 echo "=== Agent server (OID4VC) ==="
@@ -112,9 +117,11 @@ check_json_health "agent.sovereignid.cloud/health" "https://agent.sovereignid.cl
 check_redirect_dest "agent.sovereignid.cloud → luure" "https://agent.sovereignid.cloud/.well-known/openid-credential-issuer" "agent.luure.com.br"
 
 echo ""
-echo "=== Ledger VM probe (${LEDGER_IP}) ==="
-check_ip_host "ledger.smartecm.io/genesis" "ledger.smartecm.io" "/genesis" "200"
-check_ip_host "api.smartecm.io/health" "api.smartecm.io" "/health" "200" "GET"
+echo "=== Ledger / API (luure.com.br) ==="
+check "ledger.luure.com.br/genesis" "https://ledger.luure.com.br/genesis" "200"
+check "api.luure.com.br/health" "https://api.luure.com.br/health" "200"
+check_ip_host "ledger.luure.com.br/genesis (VM)" "ledger.luure.com.br" "/genesis" "200"
+check_ip_host "api.luure.com.br/health (VM)" "api.luure.com.br" "/health" "200" "GET"
 
 echo ""
 echo "=== Links no site (sovereignid-home) ==="
@@ -134,6 +141,9 @@ check_redirect_dest "sovereignid.cloud" "https://sovereignid.cloud/" "luure.com.
 check_redirect_dest "idsoberano.com" "https://idsoberano.com/" "luure.com.br"
 check_redirect_dest "sovereignid.tech" "https://sovereignid.tech/" "luure.com.br"
 check_redirect_dest "sovereignid.smartecm.io" "https://sovereignid.smartecm.io/" "luure.com.br"
+check_redirect_dest "voce.smartecm.io → sou" "https://voce.smartecm.io/" "sou.luure.com.br"
+check_redirect_dest "efolha.sp.smartecm.io" "https://efolha.sp.smartecm.io/" "efolha.luure.com.br"
+check_redirect_dest "wallet.smartecm.io" "https://wallet.smartecm.io/" "wallet.luure.com.br"
 check_redirect_dest "efolha.sovereignid.cloud" "https://efolha.sovereignid.cloud/" "efolha.luure.com.br"
 check_redirect_dest "gestao.sovereignid.cloud" "https://gestao.sovereignid.cloud/" "gestao.luure.com.br"
 check_redirect_dest "wallet.sovereignid.cloud" "https://wallet.sovereignid.cloud/" "wallet.luure.com.br"
@@ -143,6 +153,7 @@ for url in \
   "https://sovereignid-conselhos.vercel.app"; do
   check "$url" "$url" "3xx"
 done
+check "sovereignid-sou.vercel.app (hub)" "https://sovereignid-sou.vercel.app/" "200"
 
 echo ""
 echo "=== Resultado: $PASS ok, $FAIL falhas, $SKIP skip ==="

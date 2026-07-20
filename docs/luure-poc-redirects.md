@@ -3,7 +3,7 @@
 Templates `vercel.json` para mesclar no repositório de cada projeto Vercel.
 Manter os domínios antigos como aliases no mesmo projeto.
 
-## sovereignid-voce
+## sovereignid-sou
 
 ```json
 {
@@ -11,7 +11,13 @@ Manter os domínios antigos como aliases no mesmo projeto.
     {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "sovereignid-voce.vercel.app" }],
-      "destination": "https://voce.luure.com.br/:path*",
+      "destination": "https://sou.luure.com.br/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "voce.luure.com.br" }],
+      "destination": "https://sou.luure.com.br/:path*",
       "permanent": true
     }
   ]

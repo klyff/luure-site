@@ -1,12 +1,10 @@
-# Luure — Institutional Site
+# SovereignID.io — Corporate Website
 
-Institutional website for **Luure**, distributed sovereign identity infrastructure for governments and enterprises.
+Institutional website for **SovereignID.io**, a distributed sovereign identity infrastructure for governments and enterprises.
 
-**Canonical domain:** <https://luure.com.br>
+**Live domain:** <https://luure.com.br>
 
 Domínio canônico do site institucional (PT-BR na raiz, inglês em `/en`). Todos os domínios legados redirecionam para `luure.com.br` (ver [docs/luure-canonical-policy.md](docs/luure-canonical-policy.md)).
-
-This repository was migrated from [sovereignID.io](https://github.com/klyff/sovereignID.io) (formerly the SovereignID.io corporate site codebase).
 
 ## Stack
 

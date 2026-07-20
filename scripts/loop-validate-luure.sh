@@ -11,9 +11,9 @@ set -euo pipefail
 
 INTERVAL="${INTERVAL:-900}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROMPT='Run scripts/validate-luure-migration.sh from sovereignID.io and report any failures or DNS skips.'
+PROMPT='Run scripts/validate-luure-migration.sh and scripts/validate-poc-navigation.sh from sovereignID.io and report any failures or DNS skips.'
 
-echo "Loop every ${INTERVAL}s: validate-luure-migration.sh"
+echo "Loop every ${INTERVAL}s: validate-luure-migration.sh + validate-poc-navigation.sh"
 echo "First AGENT_LOOP_TICK in ${INTERVAL}s (run validation once now if arming from agent)."
 
 while true; do
